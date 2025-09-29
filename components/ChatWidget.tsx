@@ -40,10 +40,10 @@ export default function ChatWidget() {
   }, [isStreaming]);
 
   return (
-    <div className="w-full max-w-2xl mx-auto">
-      <div className="border rounded-2xl p-4 sm:p-5 bg-white/80 dark:bg-black/30 backdrop-blur shadow-sm">
+    <div className="w-full max-w-2xl mx-auto h-[calc(100vh-8rem)] sm:h-auto flex flex-col">
+      <div className="border rounded-2xl p-3 sm:p-5 bg-white/80 dark:bg-black/30 backdrop-blur shadow-sm flex-1 flex flex-col min-h-0">
         <div
-          className="space-y-3 max-h-[50vh] overflow-auto pr-2"
+          className="space-y-3 flex-1 overflow-auto pr-2 min-h-0"
           aria-live="polite"
           aria-busy={isStreaming}
           role="log"
@@ -95,7 +95,7 @@ export default function ChatWidget() {
         ) : null}
 
         <form
-          className="mt-4 flex items-end gap-2 sticky-action-bar"
+          className="mt-4 flex items-end gap-2 sticky-action-bar flex-shrink-0"
           onSubmit={(e) => {
             e.preventDefault();
             if (!isSendDisabled) {
@@ -109,7 +109,7 @@ export default function ChatWidget() {
           <textarea
             id="chat-input"
             ref={textareaRef}
-            className="flex-1 resize-none rounded-md border px-3 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-base bg-white/90 dark:bg-gray-900/60"
+            className="flex-1 resize-none rounded-md border px-3 py-3 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-base bg-white/90 dark:bg-gray-900/60 min-h-[3rem]"
             placeholder="Kısaca durumunu yaz; birlikte nazikçe düşünelim…"
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -118,10 +118,10 @@ export default function ChatWidget() {
             aria-disabled={isStreaming}
           />
 
-          <div className="flex gap-2">
+          <div className="flex gap-2 flex-shrink-0">
             <button
               type="submit"
-              className="rounded-md bg-indigo-600 text-white text-base font-medium px-4 py-3 disabled:opacity-50 shadow hover:bg-indigo-700 transition-colors"
+              className="rounded-md bg-indigo-600 text-white text-base font-medium px-4 py-3 disabled:opacity-50 shadow hover:bg-indigo-700 transition-colors min-h-[3rem]"
               disabled={isSendDisabled}
             >
               Gönder
@@ -131,7 +131,7 @@ export default function ChatWidget() {
               <button
                 type="button"
                 onClick={stop}
-                className="rounded-md border text-base font-medium px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                className="rounded-md border text-base font-medium px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors min-h-[3rem]"
               >
                 Durdur
               </button>
@@ -139,7 +139,7 @@ export default function ChatWidget() {
               <button
                 type="button"
                 onClick={clear}
-                className="rounded-md border text-base font-medium px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+                className="rounded-md border text-base font-medium px-4 py-3 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors min-h-[3rem]"
               >
                 Temizle
               </button>

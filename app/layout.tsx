@@ -37,7 +37,7 @@ export default function RootLayout({
             </div>
           </div>
         </header>
-        <div className="mx-auto max-w-5xl px-4 py-6">
+        <div className="mx-auto max-w-5xl px-4 py-4 sm:py-6 flex-1 flex flex-col min-h-0">
           {children}
         </div>
       </body>

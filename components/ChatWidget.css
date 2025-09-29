@@ -1,0 +1,8 @@
+.sticky-action-bar {
+  position: sticky;
+  bottom: 0;
+  background: color-mix(in oklab, white 80%, transparent);
+  backdrop-filter: saturate(120%) blur(6px);
+}
+
+

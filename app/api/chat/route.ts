@@ -4,7 +4,8 @@ import { checkRateLimit } from "@/lib/rateLimit";
 
 type Message = { role: "user" | "assistant" | "system"; content: string };
 
-export const runtime = "edge";
+// Edge runtime'da encoding sorunları olabilir, Node.js runtime kullan
+// export const runtime = "edge";
 
 function securityHeaders() {
   return {
@@ -88,7 +89,6 @@ export async function POST(req: NextRequest) {
     }
 
     // SSE benzeri chunk text akışı
-    const encoder = new TextEncoder();
     const decoder = new TextDecoder("utf-8");
 
     const stream = new ReadableStream({
@@ -98,8 +98,11 @@ export async function POST(req: NextRequest) {
           while (true) {
             const { value, done } = await reader.read();
             if (done) break;
+            
+            // Buffer'ı UTF-8 olarak decode et
             const chunk = decoder.decode(value, { stream: true });
             const lines = chunk.split(/\n/).filter(Boolean);
+            
             for (const line of lines) {
               if (!line.startsWith("data:")) continue;
               const data = line.replace(/^data:\s*/, "");
@@ -110,7 +113,9 @@ export async function POST(req: NextRequest) {
                 const json = JSON.parse(data);
                 const delta = json.choices?.[0]?.delta?.content ?? "";
                 if (delta) {
-                  controller.enqueue(encoder.encode(delta));
+                  // UTF-8 encoding ile encode et
+                  const encoded = new TextEncoder().encode(delta);
+                  controller.enqueue(encoded);
                 }
               } catch {
                 // yoksay
@@ -129,7 +134,8 @@ export async function POST(req: NextRequest) {
       status: 200,
       headers: {
         "Content-Type": "text/plain; charset=utf-8",
-        "Content-Encoding": "identity",
+        "Cache-Control": "no-cache",
+        "Transfer-Encoding": "chunked",
         ...securityHeaders(),
       },
     });

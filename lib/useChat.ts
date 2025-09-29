@@ -79,7 +79,7 @@ export function useChat() {
       }
 
       const reader = res.body.getReader();
-      const decoder = new TextDecoder();
+      const decoder = new TextDecoder("utf-8");
       let assistantAccumulated = "";
 
       while (true) {
